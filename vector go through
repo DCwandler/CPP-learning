@@ -1,0 +1,8 @@
+	for (vector<int>:: iterator it=c.begin();it!=c.end();it++)
+	{
+		cout<<*it;
+	}
+	/*for (int k = c.size() - 1; k >= 0; k--)
+	{
+		cout << c[k];
+	}*/
