@@ -1,0 +1,100 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include<string>
+using namespace std;
+int calculation(vector <int> &a, vector <int> &b);
+void typein(vector <int> &a, vector <int> &b);
+int res, sum, carry, current;
+//result,summe,carry,current digit
+vector <int> a, b;
+int main()
+{    
+	typein(a,b);
+	calculation(a, b);
+
+}
+
+void typein(vector <int> &a, vector <int> &b) //read digit
+{
+	fstream inf;
+
+
+	inf.open("F:\\C++\\number.txt");
+	if (!inf.is_open())
+		{
+			cout << "openning failed";
+		}
+	cout << "输入的数字为:\n"<<endl;
+	string buf1,buf2;
+	//while (getline(inf, buf, '\n'))
+	while(!inf.eof())
+		{
+			inf>>buf1;
+			inf>>buf2;
+		}
+	inf.close();
+	for (unsigned int num1 = 0 ;num1 < buf1.size(); num1++)
+		{
+			
+			a.push_back(buf1[num1]-'0');
+		}
+	for (unsigned int num2 = 0 ;num2 < buf2.size(); num2++)
+		{
+			b.push_back(buf2[num2]-'0');
+		}
+	for (vector<int>:: iterator it=a.begin();it!=a.end();it++)
+		{
+			cout<<*it;
+		}
+	cout << '\n';
+    for (vector<int>:: iterator it=b.begin();it!=b.end();it++)
+		{
+			cout<<*it;
+		}	
+}
+ 
+int calculation(vector <int> &a, vector <int> &b)//define function cal;
+{
+	vector <int> c;// container for result
+	int i = a.size() - 1;
+	int j = b.size() - 1;
+	while ((i >= 0) || (j >= 0))//a||b not empty)
+	{
+		sum = a[i] + b[j] + carry;
+		current = sum % 10;
+		c.push_back(current);
+		carry = sum / 10;
+		i--;
+		j--;
+		if (i < 0)
+		{
+			while (j >= 0)
+			{
+				current = b[j] + carry;
+				c.push_back(current);
+				j--;
+				carry = 0;
+			}
+			break;
+		}
+		if (j < 0)
+		{
+			while (i >= 0)
+			{
+				current = a[i] + carry;
+				c.push_back(current);
+				i--;
+				carry = 0;
+			}
+			break;
+		}
+	}
+	//outprint 
+	cout << "\n\n结果为：" << endl;
+	for (int k = c.size() - 1; k >= 0; k--)
+	{
+	cout << c[k];
+	}
+	return 0; 
+}
