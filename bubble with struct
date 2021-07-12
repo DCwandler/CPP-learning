@@ -1,0 +1,53 @@
+# include <iostream>
+# include <string>
+#include <stdlib.h>
+#include <ctime>
+using namespace std;
+
+struct hero
+{
+string name;
+int age;
+string sex;
+
+};
+
+void bubble(struct hero realhero [])
+{
+    for (int j=0;j<5;j++)
+    {
+        for (int i=0;i<5-j;i++)
+        {
+            struct hero temp;
+            if (realhero[i].age>realhero[i+1].age)
+            {
+                temp=realhero[i];
+                realhero[i]=realhero[i+1];
+                realhero[i+1]=temp;
+            }
+        }
+    }
+}
+
+
+ int main ()
+ {  
+ struct hero realhero[5];
+ string nameseed[5]={"liubei","guanyu","zhangfei","zhaoyun","diaochan"};
+ int ageseed[5]={23,22,20,21,19};
+ string sexseed[5]={"male","male","male","male","female"};
+ for (int i=0;i<5;i++)
+ {
+     realhero[i].name=nameseed[i];
+     realhero[i].sex=sexseed[i];
+     realhero[i].age=ageseed[i];
+ }
+ bubble(realhero);
+
+ for (int j=0;j<5;j++)
+ {
+     cout<<"hero`s name: "<<realhero[j].name<<
+    "\t hero`s age"<<realhero[j].age<<
+    "\t hero`s sex"<<realhero[j].sex<<endl;
+ }
+ }
