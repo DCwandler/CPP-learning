@@ -1,0 +1,279 @@
+# include <iostream>
+# include <string>
+#include <cstdlib>
+#define Max 1000
+using namespace std;
+void showMenu()
+{
+	cout << "1.add a contact"<<endl;
+	cout << "2.show a contact" << endl;
+	cout << "3.delete a contact" << endl;
+	cout << "4.search a contact" << endl;
+	cout << "5.edit a contact" << endl;
+	cout << "6.clear  contact" << endl;
+	cout << "0.exit" << endl;
+}
+
+struct Person
+{
+	string m_Name;
+	int n_Sex;
+	int n_Age;
+	string a_Phone;
+	string a_Addr;
+};
+
+struct Addressbooks
+{
+	struct Person personArray[Max];
+	int m_Size;
+};
+
+//1. add contact 
+
+int addPerson(Addressbooks * abs)
+{
+	if (abs->m_Size >= Max)// judge if the books is full
+	{
+		cout << "addressBook is full " << endl;
+		return 0;
+	}
+	else
+	{
+		//creat contact
+		string name;
+		cout << "please enter a name" << endl;
+		cin >> name;
+		abs->personArray[abs->m_Size].m_Name=name;
+		int age;
+		cout << "please enter age" << endl;
+		cin >> age;
+		abs->personArray[abs->m_Size].n_Age = age;
+		int sex;
+		cout << "please enter gender 1 for male and 2 for female" << endl;
+
+		while (true)
+		{
+			cin >> sex;
+			if (sex == 0 || sex == 1)
+			{
+				abs->personArray[abs->m_Size].n_Sex = sex;
+				break;
+			}
+
+				cout << "please use 1 for male and 0 for female, check your input" << endl;
+
+		}
+			
+		string phone;
+		cout << "please enter phonenumber" << endl;
+		cin >> phone;
+		abs->personArray[abs->m_Size].a_Phone = phone;
+		string addr;
+		cout << "please enter address" << endl;
+		cin >> addr;
+		abs->personArray[abs->m_Size].a_Addr = addr;
+	}
+	cout << "save successful contact " <<abs->m_Size<<" position "<<abs->personArray[abs->m_Size].m_Name << endl;
+	abs->m_Size++;
+	system("pause");
+	system("cls");
+
+}
+// show all contact
+void showPerson(Addressbooks * abs)
+{
+
+		if (abs->m_Size == 0)
+		{
+			cout << "contact is null" << endl;
+			
+		}
+		for (int i = 0; i < abs->m_Size; i++)
+		{
+			cout << "name: " << abs->personArray[i].m_Name << endl;
+			cout << "gender: " << (abs->personArray[i].n_Sex == 1 ? " male ":" female " )<< endl;
+			cout << "age: " << abs->personArray[i].n_Age << endl;
+			cout << "phonenumber: " << abs->personArray[i].a_Phone << endl;
+			cout << "addr: " << abs->personArray[i].a_Addr << endl;
+		}
+
+
+	system("pause");
+	system("cls");
+}
+
+// check if contact exist or not;
+int isExist(Addressbooks * abs, string name)
+{
+	for (int i = 0; i < abs->m_Size; i++)
+	{
+		if (abs->personArray[i].m_Name == name)
+		{
+			return i;
+		}
+		else
+		{
+			return -1;
+		}
+
+	}
+}
+	//delete the selected contact
+	void deletePerson(Addressbooks * abs)
+	{
+		cout << "please choose the contact to delete from the list" << endl;
+		string d_Name;
+		cin >> d_Name;
+		int ret = isExist(abs, d_Name);
+		if (ret!=-1)
+		{
+			//cout << " do you want to delete him/her from your list? your choose: " << d_Name << endl;
+			for (int i = ret;i < abs->m_Size; i++) // 越界的原因是为了把NULL给数组最后一空
+			{
+				abs->personArray[i] = abs->personArray[i + 1];
+				abs->m_Size--;
+			}
+			cout << "delete successful " << endl;
+		}
+		else
+		{
+			cout << " this person is not in your list" << endl;
+		}
+		system("pause");
+		system("cls");
+	}
+	// search contact
+	void searchPerson(Addressbooks * abs)
+	{
+		cout << " please enter a name for your search " << endl;
+		string s_Name;
+		cin >> s_Name;
+		
+		if (isExist(abs, s_Name) != -1)
+		{
+			cout << "name: " << abs->personArray[isExist(abs, s_Name)].m_Name << endl;
+			cout << "gender: " << (abs->personArray[isExist(abs, s_Name)].n_Sex == 1 ? " male " : " female ") << endl;
+			cout << "age: " << abs->personArray[isExist(abs, s_Name)].n_Age << endl;
+			cout << "phonenumber: " << abs->personArray[isExist(abs, s_Name)].a_Phone << endl;
+			cout << "addr: " << abs->personArray[isExist(abs, s_Name)].a_Addr << endl;
+		}
+		else
+		cout<<"there is no matched person you want " << endl;
+		system("pause");
+		system("cls");
+
+}
+	// edit contact
+
+	void modifyPersion(Addressbooks * abs)
+	{
+		string m_Name;
+		cout << " please enter a name for your modification " << endl; //name 这里最好分开写 因为后续用name找索引会失效
+		cin >> m_Name;
+		if (isExist(abs, m_Name) != -1)
+		{
+			string name;
+			cout << "please enter new name" << endl;
+			cin >> name;
+			abs->personArray[isExist(abs, m_Name)].m_Name = name;
+			int age;
+			cout << "please enter new age" << endl;
+			cin >> age;
+			abs->personArray[isExist(abs, name)].n_Age = age;
+			int sex;
+			cout << "please enter gender 1 for male and 2 for female" << endl;
+
+			while (true)
+			{
+				cin >> sex;
+				if (sex == 0 || sex == 1)
+				{
+					abs->personArray[isExist(abs, name)].n_Sex = sex;
+					break;
+				}
+
+				cout << "please use 1 for male and 0 for female, check your input" << endl;
+
+			}
+
+			string phone;
+			cout << "please enter phonenumber" << endl;
+			cin >> phone;
+			abs->personArray[isExist(abs, name)].a_Phone = phone;
+			string addr;
+			cout << "please enter address" << endl;
+			cin >> addr;
+			abs->personArray[isExist(abs, name)].a_Addr = addr;
+
+			cout << "modify successfully" << endl;
+		}
+		else
+		{
+			cout << "there is no matched person you want " << endl;
+		}
+		system("pause");
+		system("cls");
+	}
+
+	// clear all contact
+	void clearPerson(Addressbooks * abs)
+	{
+		if (abs->m_Size == 0)
+		{
+			cout << " your list is already empty" << endl;
+		}
+		else
+		{
+			abs->m_Size = 0;//只需要逻辑清空
+			cout << " your list is already empty" << endl;
+
+		}
+		system("pause");
+		system("cls");
+	}
+
+int main()
+{
+	Addressbooks abs;
+
+
+	int select = 0;
+	abs.m_Size = 0;
+	while (true)
+	{
+		showMenu();
+		cin >> select;
+		switch (select)
+		{
+		case 1:
+			
+			addPerson(&abs);
+			break;
+		case 2:
+			showPerson(&abs);
+			break;
+		case 3:
+			deletePerson(&abs);
+			break;
+		case 4:
+			searchPerson(&abs);
+			break;
+		case 5:
+			modifyPersion(&abs);
+			break;
+		case 6:
+			clearPerson(&abs);
+			break;
+		case 0:
+			cout << "thank you for you use" << endl;
+			system("pause");
+			return 0;
+
+		default:
+			break;
+		}
+	}
+	system("pause");
+	return 0;
+}
