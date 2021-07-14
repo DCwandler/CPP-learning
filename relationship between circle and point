@@ -1,0 +1,66 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+#include <string>
+
+class Circle
+{
+public:
+
+void set_P(double &a,double &b)
+{
+    p_x=a;
+    p_y=b;
+}
+void set_C(double &a,double &b,double &c)
+{
+    c_x=a;
+    c_y=b;
+    c_r=c;
+}
+
+void judge_PC()
+{
+    double m,n;
+    m=pow((p_x-c_x),2)+pow((p_y-c_y),2);
+    n=pow(c_r,2);
+    if (n>m)
+    {
+        cout<<" point located in the circle"<<endl;
+    }
+    else if(n==m)
+    {
+        cout<<" point located on the circle"<<endl;
+    }
+    else if(n<m)
+    {
+        cout<<" point located out of the circle"<<endl;
+    }
+
+}
+
+
+private:
+
+int p_x;
+int p_y;
+int c_x;
+int c_y;
+int c_r;
+
+};
+
+
+
+int main ()
+{
+Circle cp;
+double a=1;
+double b=2;
+double c=3;
+double m=1;
+double n=2;
+cp.set_C(a,b,c);
+cp.set_P(m,n);
+cp.judge_PC();
+}
