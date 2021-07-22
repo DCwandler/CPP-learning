@@ -1,0 +1,16 @@
+		{
+			for (int i = 0; i < this->m_EmpNum; i++)
+			{
+				int minormax = i;
+				for (int j = i+1; j < this->m_EmpNum; j++)
+				{
+					if (this->m_EmpArray[minormax]->m_Id > this->m_EmpArray[j]->m_Id)
+					{
+						minormax = j;
+					}
+				}
+				Worker * temp = this->m_EmpArray[minormax];
+				this->m_EmpArray[minormax] = this->m_EmpArray[i];
+				this->m_EmpArray[i] = temp;
+			}
+		}
